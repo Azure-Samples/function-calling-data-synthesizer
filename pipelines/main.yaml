@@ -1,0 +1,148 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+display_name: data-synthesis-pipeline
+description: Data synthesis pipeline
+
+inputs:
+  functions_json:
+    type: uri_file
+    path: azureml:functions_definition@latest
+    mode: download
+  seed_qa_dataset:
+    type: uri_file
+    path: azureml:seed_qa_dataset@latest
+    mode: download
+outputs:
+  fine_tuning_dataset_train:
+    type: uri_file
+    name: fine_tuning_dataset_train
+    path: azureml://datastores/workspaceblobstore/paths/datasets/fine_tuning/train_${{name}}.jsonl
+    mode: upload
+  fine_tuning_dataset_validation:
+    type: uri_file
+    name: fine_tuning_dataset_validation
+    path: azureml://datastores/workspaceblobstore/paths/datasets/fine_tuning/validation_${{name}}.jsonl
+    mode: upload
+  fine_tuning_dataset_test:
+    type: uri_file
+    name: fine_tuning_dataset_test
+    path: azureml://datastores/workspaceblobstore/paths/datasets/fine_tuning/test_${{name}}.jsonl
+    mode: upload
+settings:
+  default_compute: azureml:serverless
+
+jobs:
+  generate_query_answer_pairs:
+    display_name: Generate query answer pairs
+    type: command
+    inputs:
+      seed_qa_dataset: ${{parent.inputs.seed_qa_dataset}}
+      functions_json: ${{parent.inputs.functions_json}}
+    outputs:
+      generated_query_answer_pairs_dir:
+        type: uri_folder
+        mode: upload
+    code: ../
+    environment: azureml:data_synthesis_environment@latest
+    resources:
+      instance_type: Standard_E4ds_v4
+    command: >-
+      python src/generate_synthetic_pairs.py
+      --config-path prompts/generator_config.yaml
+      --qa-jsonl-path ${{inputs.seed_qa_dataset}}
+      --function-definitions-path ${{inputs.functions_json}}
+      --output-path ${{outputs.generated_query_answer_pairs_dir}}/generated_query_answer_pairs.jsonl
+
+  data_verification:
+    display_name: Verify generated query answer pairs
+    type: command
+    inputs:
+      generated_query_answer_pairs_dir:
+        type: uri_folder
+        path: ${{parent.jobs.generate_query_answer_pairs.outputs.generated_query_answer_pairs_dir}}
+        mode: download
+      functions_json: ${{parent.inputs.functions_json}}
+    outputs:
+      verified_query_answer_pairs_dir:
+        type: uri_folder
+        name: generated_query_answer_pairs_raw
+        mode: upload
+    code: ../
+    environment: azureml:data_synthesis_environment@latest
+    resources:
+      instance_type: Standard_E4ds_v4
+    command: >-
+      python src/verify_generated_query_answer_pairs.py
+      --generated-query-answer-path ${{inputs.generated_query_answer_pairs_dir}}/generated_query_answer_pairs.jsonl
+      --function-definitions-path ${{inputs.functions_json}}
+      --verified-query-answer-path ${{outputs.verified_query_answer_pairs_dir}}/verified_query_answer_pairs.jsonl
+
+  data_splitter:
+    display_name: Split generated and validated data into train set and validation set
+    type: command
+    inputs:
+      verified_query_answer_pairs_dir:
+        type: uri_folder
+        path: ${{parent.jobs.data_verification.outputs.verified_query_answer_pairs_dir}}
+        mode: download
+    outputs:
+      split_data_dir:
+        type: uri_folder
+        name: split_data
+        mode: upload
+    code: ../
+    environment: azureml:data_synthesis_environment@latest
+    command: >-
+      python src/split_data.py
+      --input-file-path ${{inputs.verified_query_answer_pairs_dir}}/verified_query_answer_pairs.jsonl
+      --train-output-path ${{outputs.split_data_dir}}/train.jsonl
+      --val-output-path ${{outputs.split_data_dir}}/validation.jsonl
+      --test-size 0.3
+
+  apply_chat_message_format_for_training_data:
+    display_name: Convert training data to chat message format for fine tuning
+    type: command
+    inputs:
+      split_data_dir:
+        type: uri_folder
+        path: ${{parent.jobs.data_splitter.outputs.split_data_dir}}
+        mode: download
+    outputs:
+      fine_tuning_dataset_train: ${{parent.outputs.fine_tuning_dataset_train}}
+    code: ../
+    environment: azureml:data_synthesis_environment@latest
+    command: >-
+      python src/apply_chat_message_format.py
+      --input-path ${{inputs.split_data_dir}}/train.jsonl
+      --output-path ${{outputs.fine_tuning_dataset_train}}
+
+  apply_chat_message_format_for_validation_data:
+    display_name: Convert validation data to chat message format for fine tuning
+    type: command
+    inputs:
+      split_data_dir:
+        type: uri_folder
+        path: ${{parent.jobs.data_splitter.outputs.split_data_dir}}
+        mode: download
+    outputs:
+      fine_tuning_dataset_validation: ${{parent.outputs.fine_tuning_dataset_validation}}
+    code: ../
+    environment: azureml:data_synthesis_environment@latest
+    command: >-
+      python src/apply_chat_message_format.py
+      --input-path ${{inputs.split_data_dir}}/validation.jsonl
+      --output-path ${{outputs.fine_tuning_dataset_validation}}
+
+  apply_chat_message_format_for_test_data:
+    display_name: Convert test data to chat message format for fine tuning
+    type: command
+    inputs:
+      seed_qa_dataset: ${{parent.inputs.seed_qa_dataset}}
+    outputs:
+      fine_tuning_dataset_test: ${{parent.outputs.fine_tuning_dataset_test}}
+    code: ../
+    environment: azureml:data_synthesis_environment@latest
+    command: >-
+      python src/apply_chat_message_format.py
+      --input-path ${{inputs.seed_qa_dataset}}
+      --output-path ${{outputs.fine_tuning_dataset_test}}

@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: data_synthesis_environment
+build:
+  path: ../
+  dockerfile_path: .devcontainer/Dockerfile

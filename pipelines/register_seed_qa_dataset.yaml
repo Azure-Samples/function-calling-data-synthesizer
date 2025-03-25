@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+type: uri_file
+name: seed_qa_dataset
+description: function calling evaluation dataset used as seed QA data
+path: ../data/examples/seed_qa_dataset.jsonl

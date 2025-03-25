@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+type: uri_file
+name: functions_definition
+description: Function definitions
+path: ../data/examples/functions_definition.json

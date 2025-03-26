@@ -1,0 +1,63 @@
+{
+    "functions": [
+        {
+            "type": "function",
+            "function": {
+                "name": "adjust_temperature",
+                "description": "Set the cabin temperature directly.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "temperature": {
+                            "type": "number",
+                            "minimum": 60,
+                            "maximum": 90,
+                            "description": "The desired cabin temperature in Fahrenheit."
+                        }
+                    },
+                    "required": [
+                        "temperature"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "play_audio_track",
+                "description": "Play an audio track or playlist through the car's entertainment system using a supported streaming service.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "service": {
+                            "type": "string",
+                            "enum": [
+                                "StreamX",
+                                "MusicBox",
+                                "TuneStream"
+                            ],
+                            "description": "The streaming service to use for audio playback."
+                        },
+                        "media_type": {
+                            "type": "string",
+                            "enum": [
+                                "track",
+                                "playlist"
+                            ],
+                            "description": "Specifies whether to play a single track or a playlist."
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "The title of the audio track or playlist."
+                        }
+                    },
+                    "required": [
+                        "service",
+                        "media_type",
+                        "title"
+                    ]
+                }
+            }
+        }
+    ]
+}

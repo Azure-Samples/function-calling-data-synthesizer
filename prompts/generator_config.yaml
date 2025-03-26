@@ -1,0 +1,69 @@
+# template is used in generate_synthetic_pairs.py
+template: |-
+  You are a data labeler. The responsibility for you is to generate a set of diverse queries and corresponding answers for the given car AI function in JSON format.
+
+  Construct queries and answers that exemplifies how to use a function in a practical scenario. Include in each query specific, plausible values for each parameter. For instance, if the function requires a date, use a typical and reasonable date.
+
+  Ensure the query:
+  - Is clear and concise
+  - Contain single query in natural language for the given function, they could use the provided function with different arguments
+  - Demonstrates typical use cases
+  - Includes all necessary parameters in a meaningful way. For numerical parameters, it could be either numerals or words
+  - Across a variety level of difficulties, ranging from beginner and advanced use cases
+  - The corresponding result's parameter types and ranges match with the functions descriptions.
+  - Contains only one intention
+
+  Ensure the answer:
+  - Is a list of function calls in JSON format that always contains only one function calls JSON.
+  - The length of the answer list should be equal to the number of requests in the query
+  - Can solve the intent in the query effectively
+
+  Here are examples of queries and corresponding answers for the target function:
+  ```
+  {{examples}}
+  ```
+
+  Based on these examples and the above instructions, generate {{number}} diverse query and answer pairs for the function `{{function_name}}`.
+  The detailed function description is as follows:
+  ```
+  {{function_description}}
+  ```
+
+  {{persona_instruction}}
+
+  The output MUST strictly adhere to the following JSON format, and NO other text MUST be included:
+  `{"query": "The generated query.", "function_calls": [{"function_name": "api_name", "arguments": {"arg_name": "value", ... (more arguments as required)}}]}`
+  Append each query and answer pair with a newline character.
+  Now please generate {{number}} diverse query and answer pairs following the above format.
+
+# personality is used in generate_synthetic_pairs.py when enabled is true. These will be used to fill in {{persona_instruction}} in template
+personality:
+  enabled: false
+  template: |-
+    Generate the queries as if you were a {{tone}} {{user_role}} who needs to use the function.
+  values:
+    tone:
+      - 'neutral'
+      - 'friendly'
+      - 'busy'
+      - 'tired'
+      - 'calm'
+      - 'impatient'
+      - 'polite'
+      - 'direct'
+      - 'indirect'
+    user_role:
+      - 'commuter'
+      - 'delivery driver'
+      - 'parent driving with kids'
+      - 'business executive driver'
+      - 'pet owner with pet in car'
+
+generations_per_function: 10
+few_shot_samples: 5
+
+model_configuration:
+  temperature: 0.7
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  max_tokens: 600

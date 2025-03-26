@@ -1,0 +1,9 @@
+!.env
+.venv
+.mypy_cache
+.pytest_cache
+.ruff_cache
+*.log
+tests
+data
+notebooks

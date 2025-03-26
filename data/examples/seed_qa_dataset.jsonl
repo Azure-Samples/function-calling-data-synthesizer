@@ -1,0 +1,20 @@
+{"query": "Set the temperature to 72 degrees", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 72}}]}
+{"query": "Adjust cabin temp to 65 degrees Fahrenheit", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 65}}]}
+{"query": "Make it 78 degrees in here", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 78}}]}
+{"query": "Can you make it warmer? About 80 degrees would be nice", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 80}}]}
+{"query": "I'm feeling too warm, set temperature to 68", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 68}}]}
+{"query": "Change the cabin temperature to 75 degrees", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 75}}]}
+{"query": "It's cold, crank up the heat to 85", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 85}}]}
+{"query": "Set the temperature to a comfortable 70 degrees", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 70}}]}
+{"query": "I need it to be 62 degrees in the cabin", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 62}}]}
+{"query": "Let's set the car to 88 degrees", "function_calls": [{"function_name": "adjust_temperature", "arguments": {"temperature": 88}}]}
+{"query": "Play my favorite rock playlist on StreamX", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "StreamX", "media_type": "playlist", "title": "Rock Favorites"}}]}
+{"query": "Start the classical music playlist on TuneStream", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "TuneStream", "media_type": "playlist", "title": "Classical Music"}}]}
+{"query": "Play the song 'Starlight' on MusicBox", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "MusicBox", "media_type": "track", "title": "Starlight"}}]}
+{"query": "I want to hear the 'Road Trip Favorites' playlist on StreamX", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "StreamX", "media_type": "playlist", "title": "Road Trip Favorites"}}]}
+{"query": "Play Mozart's Symphony on TuneStream", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "TuneStream", "media_type": "track", "title": "Mozart's Symphony"}}]}
+{"query": "Start track 'Summer Hits' using MusicBox", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "MusicBox", "media_type": "track", "title": "Summer Hits"}}]}
+{"query": "Play the jazz playlist on TuneStream please", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "TuneStream", "media_type": "playlist", "title": "Jazz"}}]}
+{"query": "Can you play 'Ocean Waves' track on StreamX?", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "StreamX", "media_type": "track", "title": "Ocean Waves"}}]}
+{"query": "Play my workout playlist on MusicBox", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "MusicBox", "media_type": "playlist", "title": "Workout"}}]}
+{"query": "Start the audiobook 'The Great Gatsby' on TuneStream", "function_calls": [{"function_name": "play_audio_track", "arguments": {"service": "TuneStream", "media_type": "track", "title": "The Great Gatsby"}}]}

@@ -62,5 +62,5 @@
     "mounts": [
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
     ],
-    "postStartCommand": "pre-commit install && sudo chown vscode .git/hooks/pre-commit"
+    "postStartCommand": "pre-commit install --overwrite"
 }

@@ -1,6 +1,6 @@
 FROM python:3.12.7
 ARG USERNAME=vscode
-ARG USER_UID=1010
+ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # Set the working directory inside the container

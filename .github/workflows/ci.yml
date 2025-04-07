@@ -10,7 +10,7 @@ permissions:
   actions: read
   checks: write
 env:
-  pythonVersion: 3.12.7
+  pythonVersion: 3.12.9
 jobs:
   Build_Stage_Build:
     name: Build

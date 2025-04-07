@@ -3,6 +3,7 @@ name = "function-calling-data-synthesizer"
 version = "0.1.0"
 description = ""
 authors = ["Kosuke Fujimoto <kofuji@microsoft.com>"]
+package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
@@ -15,7 +16,7 @@ pytest-mock = "^3.14.0"
 
 
 [tool.poetry.dependencies]
-python = "=3.12.7"
+python = "=3.12.9"
 types-pyyaml = "^6.0.12.20250326"
 python-dotenv = "^1.1.0"
 tenacity = "^9.1.2"

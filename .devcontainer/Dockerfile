@@ -10,9 +10,7 @@ ENV PIP_NO_CACHE_DIR=off \
     POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_CREATE=false \
     POETRY_HOME='/usr/local' \
-    POETRY_VERSION=1.8.3 \
-    PYTHON_VERSION=3.12.7
-
+    POETRY_VERSION=2.1.1
 # Install required tools and dependencies
 RUN apt-get update && apt-get install -y \
     sudo \
@@ -31,7 +29,7 @@ RUN apt-get update && apt-get install -y \
     git \
     libsqlite3-dev \
     pre-commit \
-    && curl -sSL https://install.python-poetry.org | python3 - --version 1.8.3 \
+    && curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 

@@ -16,7 +16,7 @@ pytest-mock = "^3.14.0"
 
 [tool.poetry.dependencies]
 python = "=3.12.7"
-types-pyyaml = "^6.0.12.20241230"
+types-pyyaml = "^6.0.12.20250326"
 python-dotenv = "^1.0.1"
 tenacity = "^9.0.0"
 pyyaml = "^6.0.2"

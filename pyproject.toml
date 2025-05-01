@@ -8,7 +8,7 @@ package-mode = false
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
 pytest = "^8.3.3"
-ruff = "^0.11.4"
+ruff = "^0.11.7"
 mypy = "^1.13.0"
 pytest-cov = "^6.1.1"
 ipykernel = "^6.29.5"
@@ -24,14 +24,14 @@ pyyaml = "^6.0.2"
 azure-ai-inference = "^1.0.0b6"
 azure-core = "^1.33.0"
 asyncio = "^3.4.3"
-aiohttp = "^3.11.16"
+aiohttp = "^3.11.18"
 jsonlines = "^4.0.0"
 tqdm = "^4.67.0"
 scikit-learn = "^1.5.2"
-azure-ai-ml = "^1.26.1"
+azure-ai-ml = "^1.26.5"
 azure-identity = "^1.21.0"
 pytest-asyncio = "^0.26.0"
-azureml-mlflow = "^1.59.0.post1"
+azureml-mlflow = "^1.60.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

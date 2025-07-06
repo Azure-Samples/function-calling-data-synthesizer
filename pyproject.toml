@@ -30,7 +30,7 @@ tqdm = "^4.67.0"
 scikit-learn = "^1.7.0"
 azure-ai-ml = "^1.27.1"
 azure-identity = "^1.23.0"
-pytest-asyncio = "^0.26.0"
+pytest-asyncio = "^1.0.0"
 azureml-mlflow = "^1.60.0"
 
 [tool.pytest.ini_options]

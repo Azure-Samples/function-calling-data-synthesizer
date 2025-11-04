@@ -39,7 +39,7 @@ jobs:
         sudo apt-get clean -y
         sudo rm -rf /var/lib/apt/lists/*
     - name: Use Python ${{ env.pythonVersion }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ env.pythonVersion }}
         cache: 'poetry'

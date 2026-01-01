@@ -540,13 +540,13 @@ aio = ["azure-core[aio] (>=1.30.0)"]
 
 [[package]]
 name = "azureml-mlflow"
-version = "1.61.0"
+version = "1.61.0.post1"
 description = "Contains the integration code of AzureML with Mlflow."
 optional = false
 python-versions = "<4.0,>=3.8"
 groups = ["main"]
 files = [
-    {file = "azureml_mlflow-1.61.0-py3-none-any.whl", hash = "sha256:9b3b457a01645bf713096215a0e889defb0c833e98e98857128815623e133234"},
+    {file = "azureml_mlflow-1.61.0.post1-py3-none-any.whl", hash = "sha256:b663bdc7f016bf88cd758bbe6f253c2dcc0ce53a60e539c503aa8e939469c4b9"},
 ]
 
 [package.dependencies]
@@ -1738,7 +1738,7 @@ version = "3.26.2"
 description = "A lightweight library for converting complex datatypes to and from native Python datatypes."
 optional = false
 python-versions = ">=3.9"
-groups = ["main", "dev"]
+groups = ["main"]
 files = [
     {file = "marshmallow-3.26.2-py3-none-any.whl", hash = "sha256:013fa8a3c4c276c24d26d84ce934dc964e2aa794345a0f8c7e5a7191482c8a73"},
     {file = "marshmallow-3.26.2.tar.gz", hash = "sha256:bbe2adb5a03e6e3571b573f42527c6fe926e17467833660bebd11593ab8dfd57"},

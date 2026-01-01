@@ -7,7 +7,7 @@ package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.5.1"
-pytest = "^8.4.2"
+pytest = "^9.0.2"
 ruff = "^0.14.10"
 mypy = "^1.19.1"
 pytest-cov = "^7.0.0"

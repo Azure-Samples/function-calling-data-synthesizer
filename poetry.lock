@@ -540,13 +540,13 @@ aio = ["azure-core[aio] (>=1.30.0)"]
 
 [[package]]
 name = "azureml-mlflow"
-version = "1.61.0"
+version = "1.61.0.post1"
 description = "Contains the integration code of AzureML with Mlflow."
 optional = false
 python-versions = "<4.0,>=3.8"
 groups = ["main"]
 files = [
-    {file = "azureml_mlflow-1.61.0-py3-none-any.whl", hash = "sha256:9b3b457a01645bf713096215a0e889defb0c833e98e98857128815623e133234"},
+    {file = "azureml_mlflow-1.61.0.post1-py3-none-any.whl", hash = "sha256:b663bdc7f016bf88cd758bbe6f253c2dcc0ce53a60e539c503aa8e939469c4b9"},
 ]
 
 [package.dependencies]

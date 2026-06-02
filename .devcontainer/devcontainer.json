@@ -5,7 +5,7 @@
         "dockerfile": "Dockerfile"
     },
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/docker-in-docker:3": {},
         "ghcr.io/dhoeric/features/hadolint:1": {},
         "ghcr.io/devcontainers/features/common-utils:2": {
             "installZsh": true,

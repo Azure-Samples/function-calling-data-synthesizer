@@ -36,9 +36,9 @@ class SemanticChecker:
         with open(config_path, "r") as f:
             config = yaml.safe_load(f)
             self.model_config = config["model_configuration"]
-        with open("prompts/semantic_checker.txt", "r") as f:
-            self.validation_prompt_template = f.read()
-        self.function_definition = function_definition or {}
+        if function_definition is None:
+            function_definition = {}
+        self.function_definition = function_definition
 
     async def run(
         self, function_calls_to_semantic_check: list[dict[str, Any]]
@@ -62,9 +62,11 @@ class SemanticChecker:
             func_call["function_calls"][0]
             for func_call in function_calls_to_semantic_check
         ]
+        with open("prompts/semantic_checker.txt", "r") as f:  # noqa: ASYNC230
+            validation_prompt_template = f.read()
         messages = [
             UserMessage(
-                content=self.validation_prompt_template.format(
+                content=validation_prompt_template.format(
                     func_desc=str(self.function_definition),
                     query=query,
                     func_call=func_call,

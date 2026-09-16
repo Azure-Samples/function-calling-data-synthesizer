@@ -8,7 +8,7 @@ from argparse import ArgumentParser, Namespace
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Self
 
 import jsonlines
 import tqdm
@@ -19,6 +19,7 @@ from azure.ai.inference.models import (
 )
 from dotenv import load_dotenv
 
+from custom_exceptions import AllClientsFailedError
 from inference import async_inference
 from log_handlers import get_handlers
 
@@ -37,7 +38,7 @@ class ErrorCounts:
     json_decode_error: int = 0
     missing_keys: int = 0
 
-    def __iadd__(self, other: ErrorCounts) -> ErrorCounts:
+    def __iadd__(self, other: ErrorCounts) -> Self:
         self.no_json_section += other.no_json_section
         self.json_decode_error += other.json_decode_error
         self.missing_keys += other.missing_keys
@@ -165,7 +166,7 @@ class SyntheticDataGeneratorConfig:
     """The number of few shot examples to sample for each generation."""
 
     @staticmethod
-    def from_yaml(file_path: Union[str, Path]) -> SyntheticDataGeneratorConfig:
+    def from_yaml(file_path: str | Path) -> SyntheticDataGeneratorConfig:
         """
         Load the configuration from a YAML file.
         Args:
@@ -354,7 +355,7 @@ class SyntheticDataGenerator:
                 messages=messages,
                 model_configuration=self.config.model_configuration,
             )
-        except Exception as e:
+        except AllClientsFailedError as e:
             # We need to make sure we do not loose data if the model fails
             logger.warning(f"Failed to generate data for {function_name}: {e}")
             return None

@@ -3,6 +3,7 @@ from azure.ai.inference.models import (
     ChatCompletions,
     UserMessage,
 )
+from azure.core.exceptions import AzureError
 from tenacity import (
     Retrying,
     stop_after_attempt,
@@ -45,7 +46,7 @@ async def test_async_inference_success(mocker):
 @pytest.mark.asyncio
 async def test_async_inference_all_clients_fail(mocker):
     mock_client = mocker.patch("inference.ChatCompletionsClient")
-    mock_client.return_value.__aenter__.return_value.complete.side_effect = Exception(
+    mock_client.return_value.__aenter__.return_value.complete.side_effect = AzureError(
         "API error"
     )
 
@@ -61,7 +62,7 @@ async def test_async_inference_retry_logic(mocker):
     mock_client = mocker.patch("inference.ChatCompletionsClient")
     mock_response = mocker.AsyncMock(spec=ChatCompletions)
     mock_client.return_value.__aenter__.return_value.complete.side_effect = [
-        Exception("Temporary failure"),
+        AzureError("Temporary failure"),
         mock_response,
     ]
 

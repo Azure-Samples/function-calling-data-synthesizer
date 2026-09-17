@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Tuple
+from typing import Any
 
 from tqdm import tqdm
 
@@ -52,7 +52,7 @@ class FormatChecker:
 
     def _extract_function_call_details(
         self, function_call: dict[str, Any]
-    ) -> Tuple[str, dict[str, Any], dict[str, Any]]:
+    ) -> tuple[str, dict[str, Any], dict[str, Any]]:
         """
         Extract function name, arguments, and properties from the function call.
 
@@ -194,12 +194,12 @@ class FormatChecker:
                 return False
 
             # Validate numeric ranges
-            if "minimum" in prop and arguments[argument] < prop["minimum"]:
+            if "minimum" in prop and value < prop["minimum"]:
                 logger.warning(
                     f"Argument '{argument}' is below the minimum value: {prop['minimum']}"
                 )
                 return False
-            if "maximum" in prop and arguments[argument] > prop["maximum"]:
+            if "maximum" in prop and value > prop["maximum"]:
                 logger.warning(
                     f"Argument '{argument}' is above the maximum value: {prop['maximum']}"
                 )
@@ -217,7 +217,7 @@ class FormatChecker:
         Returns:
             bool: Boolean indicating if the function call is valid.
         """
-        function_name, arguments, _ = self._extract_function_call_details(function_call)
+        self._extract_function_call_details(function_call)
 
         # NOTE: Add conditional requirements for each function here
         # such as if argument A is present, then argument B is required
@@ -267,7 +267,7 @@ class FormatChecker:
 
     def run(
         self, function_calls: list[dict[str, Any]]
-    ) -> Tuple[list[dict], list[dict]]:
+    ) -> tuple[list[dict], list[dict]]:
         """
         Run the validation for all function calls.
 
@@ -291,7 +291,7 @@ class FormatChecker:
                     valid_calls.append(function_call)
                 else:
                     invalid_calls.append(function_call)
-            except Exception as err:
+            except (IndexError, KeyError, TypeError) as err:
                 logger.warning(f"Malformed function call: {err}")
                 invalid_calls.append(function_call)
         return valid_calls, invalid_calls

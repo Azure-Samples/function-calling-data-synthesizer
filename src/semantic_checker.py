@@ -5,6 +5,7 @@ import yaml
 from azure.ai.inference.models import UserMessage
 from tqdm.asyncio import tqdm
 
+from custom_exceptions import AllClientsFailedError
 from inference import async_inference
 from log_handlers import get_handlers
 
@@ -24,7 +25,7 @@ class SemanticChecker:
     def __init__(
         self,
         config_path: str = "prompts/generator_config.yaml",
-        function_definition: dict[str, Any] = {},
+        function_definition: dict[str, Any] | None = None,
     ):
         """Initialize the SemanticChecker with the given configuration file and function definition.
 
@@ -35,6 +36,8 @@ class SemanticChecker:
         with open(config_path, "r") as f:
             config = yaml.safe_load(f)
             self.model_config = config["model_configuration"]
+        if function_definition is None:
+            function_definition = {}
         self.function_definition = function_definition
 
     async def run(
@@ -59,7 +62,7 @@ class SemanticChecker:
             func_call["function_calls"][0]
             for func_call in function_calls_to_semantic_check
         ]
-        with open("prompts/semantic_checker.txt", "r") as f:
+        with open("prompts/semantic_checker.txt", "r") as f:  # noqa: ASYNC230
             validation_prompt_template = f.read()
         messages = [
             UserMessage(
@@ -89,8 +92,8 @@ class SemanticChecker:
             responses = await tqdm.gather(
                 *tasks, desc="Validating function calls for semantic"
             )
-        except Exception as e:
-            logger.warning(f"An error occurred during semantic check: {str(e)}")
+        except AllClientsFailedError as e:
+            logger.warning(f"An error occurred during semantic check: {e!s}")
             return [], []
 
         valid_results = []

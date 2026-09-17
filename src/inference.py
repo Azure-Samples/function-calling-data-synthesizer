@@ -1,7 +1,8 @@
 import logging
 import os
 import random
-from typing import Any, AsyncIterable
+from collections.abc import AsyncIterable
+from typing import Any
 
 from azure.ai.inference.aio import ChatCompletionsClient
 from azure.ai.inference.models import (
@@ -10,6 +11,7 @@ from azure.ai.inference.models import (
     UserMessage,
 )
 from azure.core.credentials import AzureKeyCredential
+from azure.core.exceptions import AzureError
 from dotenv import load_dotenv
 from tenacity import (
     Retrying,
@@ -83,7 +85,7 @@ async def async_inference(  # type: ignore
                             )
                             logger.debug(f"succeeded with API endpoint {idx}")
                             return response
-                    except Exception as e:
+                    except AzureError as e:
                         error_type = type(e).__name__
                         error_message = str(e)
                         logger.warning(
@@ -93,11 +95,10 @@ async def async_inference(  # type: ignore
                         logger.debug(
                             f"Failed response from API endpoint {idx}. whole messages: {messages}"
                         )
-                else:
-                    raise AllClientsFailedError(
-                        f"All {client_settings} clients failed to respond in this attempt"
-                    )
-    except Exception:
+                raise AllClientsFailedError(
+                    f"All {client_settings} clients failed to respond in this attempt"
+                )
+    except AllClientsFailedError:
         logger.exception(
             f"Inference call failed after several retries\nInput messages were: {messages}"
         )

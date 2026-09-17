@@ -81,7 +81,7 @@ class DataVerifier:
                     )
             return parsed_functions
 
-        except Exception as e:
+        except (json.JSONDecodeError, KeyError, OSError, TypeError) as e:
             logger.error(f"Failed to load function definitions from {file_path}: {e}")
             raise InvalidFunctionDefinitionError(
                 f"Failed to load function definitions: {e}"
